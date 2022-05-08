@@ -94,6 +94,7 @@ const Home = () => {
     }
     return (
         <Box>
+            <h2>Estudiantes: Andres Angulo, Jhon Barros</h2>
             <Card sx={{ minWidth: 275, marginTop: 10, marginBottom: 5 }}>
                 <CardContent>
                     <Grid container>
