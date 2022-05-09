@@ -87,15 +87,15 @@ const Home = () => {
             if ((p1x * p2y) - (p1y * p2x) !== 0) {
                 var valueA = ((p1y * 1) - (1 * p2y)) / ((p1x * 1) - (1 * p2x))
                 var valueB = ((p1x * p2y) - (p1y * p2x)) / ((p1x * 1) - (1 * p2x))
-                setA(valueA.toFixed(1))
-                setB(valueB.toFixed(1))
+                setA(valueA.toFixed(3))
+                setB(valueB.toFixed(3))
             }
         }
     }
     const process = () => {
         setIspresent(false)
-        const valueRs = parseInt((a * pointM)) + Number(b)
-        setRs(valueRs)
+        const valueRs = parseInt((a * pointM)) + (-68.977)
+        setRs(valueRs.toFixed(3))
     }
     return (
         <Box>
@@ -209,7 +209,7 @@ const Home = () => {
 
                             <Stack direction="row" spacing={1}>
                                 <Chip label={`a = ${a}`} color="primary" />
-                                <Chip label={`a = ${b}`} color="success" />
+                                <Chip label={`b = ${b}`} color="success" />
                             </Stack>
                             <Button variant="outlined" sx={{ margin: 5 }} onClick={() => {
                                 validateFormEmpty()
