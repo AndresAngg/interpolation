@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Box from '../components/Box'
-import BoxForm from '../components/BoxForm'
 import {
     TextField,
     Button,
@@ -8,22 +7,23 @@ import {
     Card,
     Typography,
     CardContent,
-    CardActions,
     Table,
     TableBody,
     TableCell,
-    TableHead,
     TableContainer,
     TableRow,
     Chip,
     Stack,
     Grid,
     Snackbar,
+    Tab
 } from '@mui/material'
 import MuiAlert from '@mui/material/Alert';
 import { makeStyles } from '@mui/styles'
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     inputs: {
         width: 130,
     }
@@ -37,9 +37,13 @@ function createData(name, p1, p2, p3, p4, p5, p6) {
     return { name, p1, p2, p3, p4, p5, p6 };
 }
 
-const rows = [
+const ej11 = [
     createData('Tiempo(horas)', 0, 1, 2, 3, 4, 5),
     createData('Temperatura °', 36.8, 37.2, 38.3, 37.9, 37.7, 37.5),
+];
+const ej12 = [
+    createData('Año', 1962, 1970, 1980, 1987),
+    createData('Miles de caloreías', 2.76, 2.87, 2.32, 3.49),
 ];
 const Home = () => {
     const classes = useStyles();
@@ -53,8 +57,12 @@ const Home = () => {
     const [rs, setRs] = useState();
     const [ispresent, setIspresent] = useState(true);
     const [open, setOpen] = useState(false);
-    const [formEmpty, setFormEmpty] = useState(false);
-    const validateEmpty = p1x === undefined || p1y === undefined || p2x === undefined || p2y === undefined
+    const validateEmpty = p1x === undefined || p1y === undefined || p2x === undefined || p2y === undefined;
+    const [value, setValue] = React.useState('1');
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
     const handleClick = () => {
         setOpen(true);
     };
@@ -68,8 +76,6 @@ const Home = () => {
     };
 
     const validateFormEmpty = () => {
-        console.log(p2x, p2y)
-        console.log(p1x, p1y)
         if (validateEmpty) {
             handleClick()
         }
@@ -78,18 +84,17 @@ const Home = () => {
         if (validateEmpty) {
             return
         } else {
-            if ((p1x * p2y) - (p1y * p2x) != 0) {
+            if ((p1x * p2y) - (p1y * p2x) !== 0) {
                 var valueA = ((p1y * 1) - (1 * p2y)) / ((p1x * 1) - (1 * p2x))
                 var valueB = ((p1x * p2y) - (p1y * p2x)) / ((p1x * 1) - (1 * p2x))
-                setA(valueA.toFixed(3))
-                setB(valueB.toFixed(3))
+                setA(valueA.toFixed(1))
+                setB(valueB.toFixed(1))
             }
         }
     }
-
     const process = () => {
         setIspresent(false)
-        const valueRs = parseInt((a*pointM))+Number(b)
+        const valueRs = parseInt((a * pointM)) + Number(b)
         setRs(valueRs)
     }
     return (
@@ -97,32 +102,71 @@ const Home = () => {
             <h2>Estudiantes: Andres Angulo, Jhon Barros</h2>
             <Card sx={{ minWidth: 275, marginTop: 10, marginBottom: 5 }}>
                 <CardContent>
-                    <Grid container>
 
+                    <Grid container>
+                        <TabContext value={value}>
+                            <TabList onChange={handleChange} aria-label="lab API tabs example">
+                                <Tab label="Ejercicio 11" value="1" />
+                                <Tab label="Ejercicio 12" value="2" />
+                            </TabList>
+                        </TabContext>
                         <Grid xs={12}>
-                            <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
-                                <b>11.</b> En un experimento para determinar la temperatura corporal,como resultado de la administración de un nuevo fármaco, se obtuvieron los siguientes valores, en función del tiempo transcurrido desde su toma:
-                            </Typography>
+                            {value === '1' &&
+                                <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
+                                    <b>11.</b> En un experimento para determinar la temperatura corporal,como resultado de la administración de un nuevo fármaco, se obtuvieron los siguientes valores, en función del tiempo transcurrido desde su toma:
+                                </Typography>
+                            }
+                            {value === '2' &&
+                                <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
+                                    <b>12.</b> El número de calorías por español y día, en el período 1962-1987, siguió esta tendencia:
+                                </Typography>
+                            }
                             <TableContainer>
                                 <Table sx={{ minWidth: 150, marginBottom: 5 }} aria-label="simple table">
-                                    <TableBody>
-                                        {rows.map((row) => (
-                                            <TableRow
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <TableCell scope="row">
-                                                    {row.name}
-                                                </TableCell>
+                                    {value === '1' &&
+                                        <TableBody>
 
-                                                <TableCell align="center" >  {row.p1}</TableCell>
-                                                <TableCell align="center">{row.p2}</TableCell>
-                                                <TableCell align="center">{row.p3}</TableCell>
-                                                <TableCell align="center">{row.p4}</TableCell>
-                                                <TableCell align="center">{row.p5}</TableCell>
-                                                <TableCell align="center">{row.p6}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
+
+                                            {ej11.map((row) => (
+                                                <TableRow
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell scope="row">
+                                                        {row.name}
+                                                    </TableCell>
+
+                                                    <TableCell align="center" >{row.p1}</TableCell>
+                                                    <TableCell align="center">{row.p2}</TableCell>
+                                                    <TableCell align="center">{row.p3}</TableCell>
+                                                    <TableCell align="center">{row.p4}</TableCell>
+                                                    <TableCell align="center">{row.p5}</TableCell>
+                                                    <TableCell align="center">{row.p6}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    }
+                                    {value === '2' &&
+                                        <TableBody>
+
+
+                                            {ej12.map((row) => (
+                                                <TableRow
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell scope="row">
+                                                        {row.name}
+                                                    </TableCell>
+
+                                                    <TableCell align="center" >{row.p1}</TableCell>
+                                                    <TableCell align="center">{row.p2}</TableCell>
+                                                    <TableCell align="center">{row.p3}</TableCell>
+                                                    <TableCell align="center">{row.p4}</TableCell>
+                                                    <TableCell align="center">{row.p5}</TableCell>
+                                                    <TableCell align="center">{row.p6}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    }
                                 </Table>
                             </TableContainer>
                         </Grid>
