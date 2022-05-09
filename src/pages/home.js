@@ -94,7 +94,7 @@ const Home = () => {
     }
     const process = () => {
         setIspresent(false)
-        const valueRs = parseInt((a * pointM)) + (-68.977)
+        const valueRs = parseInt((a * pointM)) + (b)
         setRs(valueRs.toFixed(3))
     }
     return (
